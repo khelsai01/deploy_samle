@@ -4,28 +4,27 @@ const CreateNote = ({noteList}) => {
     const [title, setTitle] =useState("");
     const [body, setBody] = useState("");
 
-    const createNote = async()=>{
+    const createNote = ()=>{
 
         const payload ={
             title,
             body
         }
 
-        try {
-            let res = await fetch("https://energetic-plum-bison.cyclic.app/notes/create",{
+           fetch("https://energetic-plum-bison.cyclic.app/notes/create",{
                 method:"POST",
                 headers:{
                     "Content-type":"application/json",
                     authorization:`Bearer ${localStorage.getItem("token")}`
                 },
                 body:JSON.stringify(payload)
-            });
-            const data = await res.json();
-            noteList()
-            
-        } catch (error) {
-            console.log(error)
-        }
+            }).then((res)=>res.json()).then((data)=>{
+                console.log(data)
+                noteList()
+
+            }).catch((err)=>console.log(err));
+            // const data = await res.json();
+        
     }
    
 
